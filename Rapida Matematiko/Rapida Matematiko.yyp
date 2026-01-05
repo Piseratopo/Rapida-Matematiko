@@ -31,12 +31,13 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.1.193",
+    "IDEVersion":"2024.14.2.213",
   },
   "name":"Rapida Matematiko",
   "resources":[
     {"id":{"name":"obj_common_controller","path":"objects/obj_common_controller/obj_common_controller.yy",},},
     {"id":{"name":"rm_options","path":"rooms/rm_options/rm_options.yy",},},
+    {"id":{"name":"Script1","path":"scripts/Script1/Script1.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
