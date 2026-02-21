@@ -1,0 +1,87 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-emphasis-cyan: rgb(0, 120, 255);
+  --color-emphasis: rgb(220, 24, 78);
+  --color-emphasis-green: rgb(0, 171, 77);
+  --color-primary: #42b983;
+  --color-primary-hover: #369870;
+}
+
+html {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* Custom checkbox styles */
+input[type="checkbox"] {
+   appearance: none;
+   width: 20px;
+   height: 20px;
+   border: 2px solid var(--color-primary);
+   border-radius: 4px;
+   background-color: white;
+   cursor: pointer;
+   position: relative;
+   transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+   background-color: var(--color-primary);
+}
+
+input[type="checkbox"]:checked::after {
+   content: '✓';
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: white;
+   font-size: 14px;
+   font-weight: bold;
+}
+
+input[type="checkbox"]:hover {
+   border-color: var(--color-primary-hover);
+   box-shadow: 0 0 5px rgba(66, 185, 131, 0.3);
+}
+
+/* Custom radio button styles */
+input[type="radio"] {
+   appearance: none;
+   width: 20px;
+   height: 20px;
+   border: 2px solid var(--color-primary);
+   border-radius: 50%;
+   background-color: white;
+   cursor: pointer;
+   position: relative;
+   transition: all 0.3s ease;
+}
+
+input[type="radio"]:checked {
+   background-color: var(--color-primary);
+   border-color: var(--color-primary);
+}
+
+input[type="radio"]:checked::after {
+   content: '';
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+   background-color: white;
+}
+
+input[type="radio"]:hover {
+   border-color: var(--color-primary-hover);
+   box-shadow: 0 0 5px rgba(66, 185, 131, 0.3);
+}
