@@ -5,8 +5,8 @@ import { useSettingsStore } from '../stores/settings'
 const router = useRouter()
 const settings = useSettingsStore()
 
-const navigateToAddAndSub = () => {
-   router.push('/add-and-sub')
+const navigateToPractice = () => {
+   router.push('/practice')
 }
 
 // Validate and update operations
@@ -241,7 +241,7 @@ const validateInput = (event) => {
          </div>
       </div>
 
-      <button @click="navigateToAddAndSub" class="start-button">
+      <button @click="navigateToPractice" class="start-button">
          Start Practice
       </button>
    </div>

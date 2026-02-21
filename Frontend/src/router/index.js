@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Setting from '../Components/SettingPage.vue'
-import AddAndSub from '../Components/AddAndSub.vue'
+import PracticePage from '../Components/PracticePage.vue'
 
 const router = createRouter({
    history: createWebHistory(),
@@ -15,9 +15,9 @@ const router = createRouter({
          component: Setting
       },
       {
-         path: '/add-and-sub',
-         name: 'add-and-sub',
-         component: AddAndSub
+         path: '/practice',
+         name: 'practice',
+         component: PracticePage
       }
    ]
 })

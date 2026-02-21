@@ -198,7 +198,7 @@ onMounted(() => {
 </script>
 
 <template>
-   <div class="add-and-sub-container">
+   <div class="practice-container">
       <!-- Show countdown during countdown phase -->
       <div v-if="isCountingDown" class="countdown-display">
          {{ countdownDisplay }}
@@ -246,7 +246,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.add-and-sub-container{
+.practice-container{
    padding: 2em;
 }
 
