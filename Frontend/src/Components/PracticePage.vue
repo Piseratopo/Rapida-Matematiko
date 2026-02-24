@@ -65,6 +65,36 @@ const endQuiz = (timeUp = false) => {
    }
 }
 
+// Save the current question to MongoDB
+const saveQuestion = async () => {
+   try {
+      const questionData = {
+         expression: currentExpression,
+         answer: correctAnswer.value
+      }
+      
+      const response = await fetch('http://localhost:3001/api/questions', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(questionData)
+      })
+      
+      if (response.ok) {
+         const result = await response.json()
+         console.log('Question saved successfully:', result)
+         alert('Question saved successfully!')
+      } else {
+         console.error('Failed to save question')
+         alert('Failed to save question')
+      }
+   } catch (error) {
+      console.error('Error saving question:', error)
+      alert('Error saving question')
+   }
+}
+
 // Restart the quiz
 const restartQuiz = () => {
    userAnswer.value = ''
@@ -234,14 +264,21 @@ onMounted(() => {
          />
       </template>
 
-      <!-- Restart button (shown when question is completed) -->
-      <button
-         v-if="isAnswerCorrect || isTimeUp"
-         @click="restartQuiz"
-         class="restart-button"
-      >
-         Restart
-      </button>
+      <!-- Buttons (shown when question is completed) -->
+      <div v-if="isAnswerCorrect || isTimeUp" class="button-container">
+         <button
+            @click="saveQuestion"
+            class="save-button"
+         >
+            Save Question
+         </button>
+         <button
+            @click="restartQuiz"
+            class="restart-button"
+         >
+            Restart
+         </button>
+      </div>
    </div>
 </template>
 
@@ -266,8 +303,29 @@ onMounted(() => {
    100% { transform: scale(0.9); }
 }
 
-.restart-button {
+.button-container {
+   display: flex;
+   gap: 1em;
+   justify-content: center;
    margin-top: 1em;
+}
+
+.save-button {
+   padding: 0.8em 2em;
+   font-size: 1.2em;
+   background-color: #2196F3;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+   background-color: #1976D2;
+}
+
+.restart-button {
    padding: 0.8em 2em;
    font-size: 1.2em;
    background-color: #42b983;
