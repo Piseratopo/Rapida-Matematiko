@@ -8,9 +8,8 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
-    "dev": "node --watch main.js",
-    "test": "node test-api.js",
-    "test:api": "node test-api.js"
+    "dev": "nodemon main.js",
+    "test": "node test-api.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
@@ -19,5 +18,8 @@
     "mongodb": "^7.1.0",
     "node-fetch": "^3.3.2",
     "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

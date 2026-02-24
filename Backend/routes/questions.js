@@ -2,7 +2,7 @@ import database from '../config/database.js';
 
 export const saveQuestion = async (req, res) => {
    try {
-      const { expression, answer } = req.body;
+      const { expression, answer, isCorrect, timeUp } = req.body;
       
       // Validation
       if (!expression || !answer) {
@@ -25,6 +25,8 @@ export const saveQuestion = async (req, res) => {
       const questionData = {
          expression,
          answer,
+         isCorrect: isCorrect !== undefined ? isCorrect : null,
+         timeUp: timeUp !== undefined ? timeUp : null,
          timestamp: new Date()
       };
 

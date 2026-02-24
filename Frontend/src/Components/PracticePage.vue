@@ -70,7 +70,9 @@ const saveQuestion = async () => {
    try {
       const questionData = {
          expression: currentExpression,
-         answer: correctAnswer.value
+         answer: correctAnswer.value,
+         isCorrect: isAnswerCorrect.value,
+         timeUp: isTimeUp.value
       }
       
       const response = await fetch('http://localhost:3001/api/questions', {
