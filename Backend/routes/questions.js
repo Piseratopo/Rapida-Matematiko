@@ -116,7 +116,7 @@ export const deleteQuestion = async (req, res) => {
       
       const collection = database.getQuestionsCollection();
       const result = await collection.deleteOne({ 
-         _id: database.constructor.createObjectId(id) 
+         _id: database.createObjectId(id) 
       });
       
       if (result.deletedCount === 0) {

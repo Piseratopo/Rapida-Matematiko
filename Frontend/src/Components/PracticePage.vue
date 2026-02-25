@@ -116,55 +116,64 @@ const restartQuiz = () => {
    startCountdown()
 }
 
-const generateExpression = () => {
-   const operands = []
-   const operators = []
+const generateExpression = (inputOperands, inputOperators) => {
+   let operands
+   let operators
 
-   // Generate operands
-   for (let i = 0; i < settings.length; i++) {
-      operands.push(generateRandomInteger(settings.minimum, settings.maximum))
-   }
+   if (inputOperands && inputOperands.length > 0) {
+      // Use the input operands and operators
+      operands = [...inputOperands]
+      operators = [...inputOperators]
+   } else {
+      // Generate operands if not exists
+      operands = []
+      for (let i = 0; i < settings.length; i++) {
+         operands.push(generateRandomInteger(settings.minimum, settings.maximum))
+      }
 
-   // Determine which operators to use
-   const useAddition = settings.operations.addition
-   const useSubtraction = settings.operations.subtraction
+      // Determine which operators to use
+      const useAddition = settings.operations.addition
+      const useSubtraction = settings.operations.subtraction
 
-   // Generate operators
-   let currentResult = BigInt(operands[0])
-   for (let i = 0; i < settings.length - 1; i++) {
-      let operator
-      if (useAddition && useSubtraction) {
-         // Both allowed - randomly choose
-         operator = Math.random() < 0.6 ? '+' : '−'
+      // Generate operators
+      operators = []
+      let currentResult = BigInt(operands[0])
+      const threshold = 0.6
+      for (let i = 0; i < settings.length - 1; i++) {
+         let operator
+         if (useAddition && useSubtraction) {
+            // Both allowed - randomly choose
+            operator = Math.random() < threshold ? '+' : '−'
 
-         // If negative results are not allowed and this is subtraction,
-         // check if it would result in negative
-         if (!settings.operations.allowNegative && operator === '−') {
-            if (currentResult < BigInt(operands[i + 1])) {
-               operator = '+' // Switch to addition to avoid negative result
+            // If negative results are not allowed and this is subtraction,
+            // check if it would result in negative
+            if (!settings.operations.allowNegative && operator === '−') {
+               if (currentResult < BigInt(operands[i + 1])) {
+                  operator = '+' // Switch to addition to avoid negative result
+               }
             }
-         }
-      } else if (useAddition) {
-         operator = '+'
-      } else if (useSubtraction) {
-         // Only subtraction allowed
-         operator = '−'
-         if (!settings.operations.allowNegative && currentResult < BigInt(operands[i + 1])) {
+         } else if (useAddition) {
             operator = '+'
-         }
-      } else {
-         // None selected - default to both (randomly choose)
-         operator = Math.random() < 0.6 ? '+' : '−'
-
-         if (!settings.operations.allowNegative && operator === '−') {
-            if (currentResult < BigInt(operands[i + 1])) {
+         } else if (useSubtraction) {
+            // Only subtraction allowed
+            operator = '−'
+            if (!settings.operations.allowNegative && currentResult < BigInt(operands[i + 1])) {
                operator = '+'
             }
-         }
-      }
-      operators.push(operator)
+         } else {
+            // None selected - default to both (randomly choose)
+            operator = Math.random() < threshold ? '+' : '−'
 
-      currentResult = operator === '+' ? currentResult + BigInt(operands[i + 1]) : currentResult - BigInt(operands[i + 1])
+            if (!settings.operations.allowNegative && operator === '−') {
+               if (currentResult < BigInt(operands[i + 1])) {
+                  operator = '+'
+               }
+            }
+         }
+         operators.push(operator)
+
+         currentResult = operator === '+' ? currentResult + BigInt(operands[i + 1]) : currentResult - BigInt(operands[i + 1])
+      }
    }
 
    // Store expression for individual timer
@@ -198,10 +207,23 @@ const startCountdown = () => {
          isCountingDown.value = false
          countdownDisplay.value = ''
 
-         // Generate and display expression
-         const expression = generateExpression()
-         expressionDisplay.value = expression
-         correctAnswer.value = calculateAnswer(expression)
+         // Check if there is a stored question
+         const storedQuestion = localStorage.getItem('savedQuestionToPlay')
+         if (storedQuestion) {
+            // Load the stored question
+            const question = JSON.parse(storedQuestion)
+            const expression = generateExpression(question.expression.operands, question.expression.operators)
+            expressionDisplay.value = expression
+            correctAnswer.value = question.answer
+            
+            // Clear the stored question after loading
+            localStorage.removeItem('savedQuestionToPlay')
+         } else {
+            // Generate and display expression
+            const expression = generateExpression()
+            expressionDisplay.value = expression
+            correctAnswer.value = calculateAnswer(expression)
+         }
 
          // Start timer based on type
          if (settings.timer.type === 'whole') {

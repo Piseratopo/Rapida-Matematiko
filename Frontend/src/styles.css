@@ -10,6 +10,9 @@
   --color-emphasis-green: rgb(0, 171, 77);
   --color-primary: #42b983;
   --color-primary-hover: #369870;
+  --color-green: #42b983;
+  --color-red: #e74c3c;
+  --color-yellow: #ffc107;
 }
 
 html {
