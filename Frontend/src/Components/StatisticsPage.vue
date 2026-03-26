@@ -189,18 +189,18 @@ const dashOffset = computed(() => {
    text-align: center;
 }
 
-.correct-card { border-top: 4px solid #42b983; }
-.correct-card .card-value { color: #27ae60; }
+.correct-card { border-top: 4px solid var(--color-green); }
+.correct-card .card-value { color: var(--color-green); }
 
-.incorrect-card { border-top: 4px solid #e74c3c; }
-.incorrect-card .card-value { color: #e74c3c; }
+.incorrect-card { border-top: 4px solid var(--color-red); }
+.incorrect-card .card-value { color: var(--color-red); }
 
-.timeup-card { border-top: 4px solid #f39c12; }
-.timeup-card .card-value { color: #f39c12; }
+.timeup-card { border-top: 4px solid var(--color-yellow); }
+.timeup-card .card-value { color: var(--color-yellow); }
 
 /* ── Accuracy Ring ─────────────────────────── */
 .accent-card {
-   border-top: 4px solid #6c63ff;
+   border-top: 4px solid var(--color-emphasis-cyan);
    padding: 1.2em;
 }
 
@@ -218,13 +218,13 @@ const dashOffset = computed(() => {
 
 .ring-track {
    fill: none;
-   stroke: #eeecff;
+   stroke: #e8f4ff;
    stroke-width: 10;
 }
 
 .ring-fill {
    fill: none;
-   stroke: #6c63ff;
+   stroke: var(--color-emphasis-cyan);
    stroke-width: 10;
    stroke-linecap: round;
    transition: stroke-dashoffset 0.8s ease;
@@ -242,7 +242,7 @@ const dashOffset = computed(() => {
 .ring-value {
    font-size: 1.4em;
    font-weight: 800;
-   color: #6c63ff;
+   color: var(--color-emphasis-cyan);
    line-height: 1;
 }
 
@@ -287,9 +287,9 @@ const dashOffset = computed(() => {
    background: #f0f0f0;
 }
 
-.question-row.correct  { border-left-color: #42b983; }
-.question-row.incorrect { border-left-color: #e74c3c; }
-.question-row.timeup   { border-left-color: #f39c12; }
+.question-row.correct  { border-left-color: var(--color-green); }
+.question-row.incorrect { border-left-color: var(--color-red); }
+.question-row.timeup   { border-left-color: var(--color-yellow); }
 
 .q-index {
    font-size: 0.8em;
@@ -321,9 +321,9 @@ const dashOffset = computed(() => {
    white-space: nowrap;
 }
 
-.q-status.correct   { background: #e6f9f1; color: #27ae60; }
-.q-status.incorrect { background: #fdecea; color: #e74c3c; }
-.q-status.timeup    { background: #fef9e7; color: #d68910; }
+.q-status.correct   { background: #e6f9f1; color: var(--color-green); }
+.q-status.incorrect { background: #fdecea; color: var(--color-red); }
+.q-status.timeup    { background: #fef9e7; color: var(--color-yellow); }
 
 /* ── Action Buttons ────────────────────────── */
 .action-buttons {
@@ -349,7 +349,7 @@ const dashOffset = computed(() => {
 }
 
 .btn-primary {
-   background: linear-gradient(135deg, #42d392, #42b983);
+   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
    color: white;
    box-shadow: 0 4px 14px rgba(66, 185, 131, 0.4);
 }
