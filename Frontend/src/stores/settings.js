@@ -29,6 +29,7 @@ export const useSettingsStore = defineStore('settings', () => {
    const minimum = ref(savedSettings?.minimum || '0')
    const maximum = ref(savedSettings?.maximum || '100')
    const length = ref(savedSettings?.length || 5)
+   const questionsPerSession = ref(savedSettings?.questionsPerSession || 5)
 
    const timer = ref(savedSettings?.timer || {
       type: 'whole',
@@ -42,6 +43,7 @@ export const useSettingsStore = defineStore('settings', () => {
          minimum: minimum.value,
          maximum: maximum.value,
          length: length.value,
+         questionsPerSession: questionsPerSession.value,
          timer: timer.value
       }
       localStorage.setItem('mathAppSettings', JSON.stringify(settings))
@@ -74,18 +76,25 @@ export const useSettingsStore = defineStore('settings', () => {
       saveSettings()
    }
 
+   const updateQuestionsPerSession = (value) => {
+      questionsPerSession.value = value
+      saveSettings()
+   }
+
    return {
       // State
       operations,
       minimum,
       maximum,
       length,
+      questionsPerSession,
       timer,
       // Actions
       updateOperations,
       updateRange,
       updateLength,
       updateTimerType,
-      updateTimerValue
+      updateTimerValue,
+      updateQuestionsPerSession
    }
 })

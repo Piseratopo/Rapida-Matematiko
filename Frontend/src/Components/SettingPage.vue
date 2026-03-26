@@ -125,6 +125,16 @@ const updateLength = (event) => {
    }
 }
 
+const updateQuestionsPerSession = (event) => {
+   const input = event.target
+   const digitsOnly = input.value.replace(/[^0-9]/g, '')
+   input.value = digitsOnly
+   const num = parseInt(digitsOnly)
+   if (!isNaN(num) && num >= 1) {
+      settings.updateQuestionsPerSession(num)
+   }
+}
+
 const validateInput = (event) => {
    const input = event.target
    const value = input.value.trim()
@@ -201,6 +211,17 @@ const validateInput = (event) => {
                :value="settings.length"
                @blur="validateInput"
                @input="updateLength"
+            >
+         </div>
+
+         <div class="setting-item">
+            <label for="questions-per-session">Questions per session:</label>
+            <input
+               id="questions-per-session"
+               type="text"
+               :value="settings.questionsPerSession"
+               @input="updateQuestionsPerSession"
+               placeholder="e.g. 5"
             >
          </div>
 
