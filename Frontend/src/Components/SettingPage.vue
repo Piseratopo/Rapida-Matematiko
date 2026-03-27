@@ -275,7 +275,7 @@ label {
    color: #34495e;
 }
 
-select, input {
+select, input:not([type="checkbox"]):not([type="radio"]) {
    width: 100%;
    padding: 0.5em;
    border: 1px solid #ddd;
