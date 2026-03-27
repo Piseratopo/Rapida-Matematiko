@@ -26,30 +26,6 @@ const isValidDecimal = (str) => {
    return /^[0-9]*\.?[0-9]+$/.test(str) && str.length > 0 && parseFloat(str) > 0
 }
 
-// Validate and update range during input (no swapping)
-const updateRangeInput = () => {
-   const minInput = document.getElementById('minimum')
-   const maxInput = document.getElementById('maximum')
-
-   // Validate inputs
-   const minStr = minInput.value.trim()
-   const maxStr = maxInput.value.trim()
-
-   if (isValidBigInt(minStr) && isValidBigInt(maxStr)) {
-      // Convert to BigInt for comparison
-      const min = BigInt(minStr)
-      const max = BigInt(maxStr)
-
-      // Only update settings if min <= max, don't swap during input
-      if (min <= max) {
-         settings.updateRange(minStr, maxStr)
-      }
-   } else if (minStr === '' || maxStr === '') {
-      // Allow empty strings but don't reset during input
-   }
-   // Don't reset to defaults during input - let user finish typing
-}
-
 // Final validation and swapping when user finishes input
 const updateRangeFinal = () => {
    const minInput = document.getElementById('minimum')
