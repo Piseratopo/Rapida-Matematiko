@@ -83,7 +83,8 @@ const saveQuestion = async () => {
          timeUp: isTimeUp.value
       }
 
-      const response = await fetch('http://localhost:3001/api/questions', {
+      const apiURL = import.meta.env.VITE_API_URL
+      const response = await fetch(`${apiURL}/api/questions`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',

@@ -33,8 +33,6 @@ Backend/
 
 ## API Endpoints
 
-### Base URL: `http://localhost:3001/api`
-
 #### Questions
 - `GET /api/questions` - Get all questions (with pagination)
 - `GET /api/questions/:id` - Get a specific question by ID
