@@ -238,7 +238,7 @@ const validateInput = (event) => {
          </div>
       </div>
 
-      <button @click="navigateToPractice" class="start-button">
+      <button @click="navigateToPractice" class="start-button btn-success">
          Start Practice
       </button>
    </div>
@@ -326,19 +326,10 @@ select:focus, input:not([type="checkbox"]):not([type="radio"]):focus {
 }
 
 .start-button {
-   all: unset;
-   background-color: var(--color-green);
-   color: white;
    padding: 1em 2em;
    font-size: 1.1em;
    border-radius: 6px;
    cursor: pointer;
    font-weight: 600;
-   transition: background-color 0.3s ease, transform 0.15s ease;
-}
-
-.start-button:hover {
-   background-color: #369870;
-   transform: translateY(-2px);
 }
 </style>

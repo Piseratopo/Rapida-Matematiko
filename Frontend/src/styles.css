@@ -8,6 +8,7 @@
   --color-emphasis-cyan: rgb(0, 120, 255);
   --color-emphasis: rgb(220, 24, 78);
   --color-emphasis-green: rgb(0, 171, 77);
+  --background-transition-green: linear-gradient(90deg, #42b983, #27ae60);
   --color-primary: #42b983;
   --color-primary-hover: #369870;
   --color-green: #42b983;
@@ -19,6 +20,10 @@ html {
   font-family: "Noto Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+button {
+   border: none;
 }
 
 /* Custom checkbox styles */

@@ -28,12 +28,14 @@
 }
 
 .btn-success {
-   background-color: var(--color-green);
+   background-color: var(--color-primary);
    color: white;
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-success:hover {
-   background-color: #369870;
+   background-color: var(--color-primary-hover);
+   box-shadow: 0 4px 14px rgba(0, 171, 77, 0.4);
 }
 
 .btn-info {
