@@ -7,18 +7,19 @@ class Database {
       this.questionsCollection = null;
    }
 
-   async connect(url = process.env.MONGODB_URL || 'mongodb://localhost:27017') {
+   async connect(url) {
       try {
-         this.client = new MongoClient(url);
+         const connectionString = url || process.env.MONGODB_URL
+         this.client = new MongoClient(connectionString);
          await this.client.connect();
          console.log('Connected to MongoDB');
-         
-         this.db = this.client.db('rapida-matematiko');
-         this.questionsCollection = this.db.collection('savedQuestions');
-         
+
+         this.db = this.client.db(process.env.DB_NAME || 'rapida-matematiko');
+         this.questionsCollection = this.db.collection(process.env.COLLECTION_NAME || 'savedQuestions');
+
          // Create indexes for better query performance
          await this.questionsCollection.createIndex({ timestamp: -1 });
-         
+
          return this.db;
       } catch (error) {
          console.error('MongoDB connection error:', error);
@@ -51,8 +52,8 @@ class Database {
    formatDocument(doc) {
       if (doc && doc._id) {
          return {
-         ...doc,
-         _id: doc._id.toString()
+            ...doc,
+            _id: doc._id.toString()
          };
       }
       return doc;

@@ -24,7 +24,7 @@ const props = defineProps({
    }
 })
 
-const emit = defineEmits(['timeUp', 'checkAnswer'])
+const emit = defineEmits(['timeUp'])
 
 const timeRemaining = ref(0)
 const userAnswer = ref('')
@@ -40,9 +40,6 @@ const startTimer = () => {
 
    timerInterval = setInterval(() => {
       timeRemaining.value -= 0.01
-
-      // Check answer continuously while timer runs
-      emit('checkAnswer')
 
       if (timeRemaining.value <= 0) {
          endQuiz(true) // Time up

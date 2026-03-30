@@ -118,7 +118,7 @@ const dashOffset = computed(() => {
 
       <!-- Action buttons -->
       <div class="action-buttons">
-         <button @click="playAgain" class="btn btn-primary">
+         <button @click="playAgain" class="btn btn-success">
             Play Again
          </button>
          <button @click="backToSettings" class="btn btn-secondary">
@@ -129,6 +129,8 @@ const dashOffset = computed(() => {
 </template>
 
 <style scoped>
+@import '../styles/practice.css';
+
 .stats-page {
    margin: 0 auto;
    padding: 2em 1.5em;
@@ -339,14 +341,8 @@ const dashOffset = computed(() => {
    font-weight: 600;
    border: none;
    border-radius: 10px;
-   cursor: pointer;
-   transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn:hover {
-   transform: translateY(-2px);
-   opacity: 0.92;
-}
 
 .btn-primary {
    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));

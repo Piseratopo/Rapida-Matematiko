@@ -1,6 +1,7 @@
+import dns from 'node:dns/promises';
+dns.setServers(['1.1.1.1', '8.8.8.8']);
+
 import express from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import cors from 'cors';
 import config from './config/config.js';
 import database from './config/database.js';
@@ -8,23 +9,17 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/logger.js';
 
 // Import routes
-import { 
-   saveQuestion, 
-   getQuestions, 
-   getQuestionById, 
-   deleteQuestion, 
-   getQuestionStats 
+import {
+   saveQuestion,
+   getQuestions,
+   getQuestionById,
+   deleteQuestion,
+   getQuestionStats
 } from './routes/questions.js';
 import { healthCheck } from './routes/health.js';
 
-// Create Express app and HTTP server
+// Create Express app
 const app = express();
-const server = createServer(app);
-
-// Create Socket.IO server with CORS configuration
-const io = new Server(server, {
-   cors: config.cors
-});
 
 // Middleware
 app.use(cors(config.cors));
@@ -53,11 +48,11 @@ app.get(`${apiPrefix}`, (req, res) => {
       endpoints: {
          health: 'GET /api/health',
          questions: {
-         getAll: 'GET /api/questions',
-         getById: 'GET /api/questions/:id',
-         create: 'POST /api/questions',
-         delete: 'DELETE /api/questions/:id',
-         stats: 'GET /api/questions/stats'
+            getAll: 'GET /api/questions',
+            getById: 'GET /api/questions/:id',
+            create: 'POST /api/questions',
+            delete: 'DELETE /api/questions/:id',
+            stats: 'GET /api/questions/stats'
          }
       }
    });
@@ -76,39 +71,15 @@ app.get('/', (req, res) => {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-// Socket.IO connection handling
-io.on('connection', (socket) => {
-   console.log(`Client connected: ${socket.id}`);
-   
-   // Handle custom events
-   socket.on('join-room', (room) => {
-      socket.join(room);
-      console.log(`Client ${socket.id} joined room: ${room}`);
-   });
-   
-   socket.on('leave-room', (room) => {
-      socket.leave(room);
-      console.log(`Client ${socket.id} left room: ${room}`);
-   });
-   
-   socket.on('disconnect', () => {
-      console.log(`Client disconnected: ${socket.id}`);
-   });
-});
 
 // Graceful shutdown
 const gracefulShutdown = async (signal) => {
    console.log(`\nReceived ${signal}. Starting graceful shutdown...`);
-   
+
    try {
-      // Close HTTP server
-      server.close(() => {
-         console.log('HTTP server closed');
-      });
-      
       // Close database connection
       await database.disconnect();
-      
+
       console.log('Graceful shutdown completed');
       process.exit(0);
    } catch (error) {
@@ -126,13 +97,12 @@ const startServer = async () => {
    try {
       // Connect to database
       await database.connect(config.mongodb.url);
-      
+
       // Start HTTP server
-      server.listen(config.port, () => {
+      app.listen(config.port, () => {
          console.log(`🚀 Server running on port ${config.port}`);
          console.log(`📚 API documentation: http://localhost:${config.port}${apiPrefix}`);
          console.log(`🏥 Health check: http://localhost:${config.port}${apiPrefix}/health`);
-         console.log(`🔌 Socket.IO server ready`);
       });
    } catch (error) {
       console.error('Failed to start server:', error);

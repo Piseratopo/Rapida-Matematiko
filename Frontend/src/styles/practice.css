@@ -30,12 +30,13 @@
 .btn-success {
    background-color: var(--color-primary);
    color: white;
-   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+   transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
 }
 
 .btn-success:hover {
    background-color: var(--color-primary-hover);
    box-shadow: 0 4px 14px rgba(0, 171, 77, 0.4);
+   transform: translateY(-2px);
 }
 
 .btn-info {
@@ -86,7 +87,8 @@
 /* ──────────── TIMER COMPONENTS SHARED STYLES ─────────────── */
 /* ═══════════════════════════════════════════════════════════ */
 
-.whole-timer, .individual-timer {
+.whole-timer,
+.individual-timer {
    width: 100%;
 }
 
@@ -210,7 +212,15 @@
 /* ═══════════════════════════════════════════════════════════ */
 
 @keyframes fadeInOut {
-   0% { opacity: 0.9; }
-   50% { opacity: 1; }
-   100% { opacity: 0.9; }
+   0% {
+      opacity: 0.9;
+   }
+
+   50% {
+      opacity: 1;
+   }
+
+   100% {
+      opacity: 0.9;
+   }
 }

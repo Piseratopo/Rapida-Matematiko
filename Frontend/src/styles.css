@@ -1,29 +1,32 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
 }
 
 :root {
-  --color-emphasis-cyan: rgb(0, 120, 255);
-  --color-emphasis: rgb(220, 24, 78);
-  --color-emphasis-green: rgb(0, 171, 77);
-  --background-transition-green: linear-gradient(90deg, #42b983, #27ae60);
-  --color-primary: #42b983;
-  --color-primary-hover: #369870;
-  --color-green: #42b983;
-  --color-red: #e74c3c;
-  --color-yellow: #ffc107;
+   --color-emphasis-cyan: rgb(0, 120, 255);
+   --color-emphasis: rgb(220, 24, 78);
+   --color-emphasis-green: rgb(0, 171, 77);
+   --background-transition-green: linear-gradient(90deg, #42b983, #27ae60);
+   --color-primary: #42b983;
+   --color-primary-hover: #369870;
+   --color-green: #42b983;
+   --color-red: #e74c3c;
+   --color-yellow: #ffc107;
 }
 
 html {
-  font-family: "Noto Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+   font-family: "Noto Sans", sans-serif;
+   font-optical-sizing: auto;
+   font-style: normal;
 }
 
 button {
    border: none;
+   cursor: pointer;
 }
 
 /* Custom checkbox styles */

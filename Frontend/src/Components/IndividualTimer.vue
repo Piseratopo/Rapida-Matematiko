@@ -28,7 +28,7 @@ const props = defineProps({
    }
 })
 
-const emit = defineEmits(['timeUp', 'checkAnswer'])
+const emit = defineEmits(['timeUp'])
 
 const timeRemaining = ref(0)
 const currentNumber = ref('')

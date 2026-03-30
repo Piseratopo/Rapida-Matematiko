@@ -152,9 +152,9 @@ const validateInput = (event) => {
          <div class="setting-item">
             <label for="allow-negative">Allow Negative Results:</label>
             <input
-               id="allow-negative"
-               type="checkbox"
-               v-model="settings.operations.allowNegative"
+            id="allow-negative"
+            type="checkbox"
+            v-model="settings.operations.allowNegative"
             >
          </div>
 

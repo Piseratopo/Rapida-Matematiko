@@ -63,14 +63,6 @@ const endQuiz = (timeUp = false) => {
    isTimeUp.value = timeUp
    isAnswerCorrect.value = !timeUp
    questionAnswered.value = true
-
-   // Record in session store
-   session.recordAnswer({
-      expression: currentExpression,
-      answer: correctAnswer.value,
-      isCorrect: !timeUp,
-      isTimeUp: timeUp
-   })
 }
 
 // Save the current question to MongoDB
@@ -108,6 +100,14 @@ const saveQuestion = async () => {
 
 // Advance to the next question in the session
 const nextQuestion = () => {
+   // Record in session store
+   session.recordAnswer({
+      expression: currentExpression,
+      answer: correctAnswer.value,
+      isCorrect: !isTimeUp.value,
+      isTimeUp: isTimeUp.value
+   })
+
    session.nextQuestion()
    userAnswer.value = ''
    isAnswerCorrect.value = false
@@ -129,6 +129,14 @@ const nextQuestion = () => {
 
 // Navigate to statistics page
 const viewStatistics = () => {
+   // Record in session store
+   session.recordAnswer({
+      expression: currentExpression,
+      answer: correctAnswer.value,
+      isCorrect: !isTimeUp.value,
+      isTimeUp: isTimeUp.value
+   })
+   
    router.push('/statistics')
 }
 
@@ -287,7 +295,6 @@ onMounted(() => {
             :is-answer-correct="isAnswerCorrect"
             :is-time-up="isTimeUp"
             @time-up="endQuiz"
-            @check-answer="checkAnswer"
          />
 
          <!-- Individual Timer Component -->
@@ -301,7 +308,6 @@ onMounted(() => {
             :is-answer-correct="isAnswerCorrect"
             :is-time-up="isTimeUp"
             @time-up="endQuiz"
-            @check-answer="checkAnswer"
          />
       </template>
 
@@ -315,7 +321,7 @@ onMounted(() => {
          <button
             v-if="!session.isLastQuestion"
             @click="nextQuestion"
-            class="next-button"
+            class="next-button btn-success"
          >
             Next Question →
          </button>
@@ -438,20 +444,12 @@ onMounted(() => {
 }
 
 .next-button {
-   all: unset;
    padding: 0.8em 2em;
    font-size: 1.1em;
    border-radius: 8px;
    cursor: pointer;
    font-weight: 600;
-   background-color: var(--color-green);
    color: white;
-   transition: background-color 0.3s ease, transform 0.15s ease;
-}
-
-.next-button:hover {
-   background-color: #369870;
-   transform: translateY(-2px);
 }
 
 .stats-button {
