@@ -119,5 +119,5 @@ defineExpose({
 </template>
 
 <style scoped>
-
+@import url('../styles/practice.css');
 </style>

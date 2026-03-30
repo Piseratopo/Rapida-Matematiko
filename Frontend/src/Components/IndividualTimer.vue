@@ -185,6 +185,8 @@ defineExpose({
 </template>
 
 <style scoped>
+@import url('../styles/practice.css');
+
 .number-display {
    font-size: 2rem;
    font-weight: bold;

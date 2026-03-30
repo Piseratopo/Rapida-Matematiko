@@ -333,6 +333,8 @@ onMounted(() => {
 </template>
 
 <style scoped>
+@import url('../styles/practice.css');
+
 .practice-container {
    padding: 2em;
 }
@@ -396,7 +398,7 @@ onMounted(() => {
 .countdown-display {
    font-size: 4em;
    font-weight: bold;
-   color: #42b983;
+   color: var(--color-green);
    text-align: center;
    margin: 2em 0;
    animation: pulse 1s ease-in-out infinite;
@@ -419,51 +421,54 @@ onMounted(() => {
 }
 
 .save-button {
+   all: unset;
    padding: 0.8em 2em;
    font-size: 1.1em;
-   background-color: #2196F3;
-   color: white;
-   border: none;
    border-radius: 8px;
    cursor: pointer;
+   font-weight: 600;
+   background-color: #2196F3;
+   color: white;
    transition: background-color 0.3s ease, transform 0.15s ease;
 }
 
 .save-button:hover {
    background-color: #1976D2;
-   transform: translateY(-1px);
+   transform: translateY(-2px);
 }
 
 .next-button {
+   all: unset;
    padding: 0.8em 2em;
    font-size: 1.1em;
-   background-color: #42b983;
-   color: white;
-   border: none;
    border-radius: 8px;
    cursor: pointer;
+   font-weight: 600;
+   background-color: var(--color-green);
+   color: white;
    transition: background-color 0.3s ease, transform 0.15s ease;
 }
 
 .next-button:hover {
    background-color: #369870;
-   transform: translateY(-1px);
+   transform: translateY(-2px);
 }
 
 .stats-button {
+   all: unset;
    padding: 0.8em 2em;
    font-size: 1.1em;
-   background: linear-gradient(135deg, #6c63ff, #4f46e5);
-   color: white;
-   border: none;
    border-radius: 8px;
    cursor: pointer;
-   transition: opacity 0.3s ease, transform 0.15s ease;
+   font-weight: 600;
+   background: linear-gradient(135deg, #6c63ff, #4f46e5);
+   color: white;
    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.4);
+   transition: opacity 0.3s ease, transform 0.15s ease;
 }
 
 .stats-button:hover {
    opacity: 0.9;
-   transform: translateY(-1px);
+   transform: translateY(-2px);
 }
 </style>

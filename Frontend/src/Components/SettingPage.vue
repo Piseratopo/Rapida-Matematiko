@@ -245,6 +245,8 @@ const validateInput = (event) => {
 </template>
 
 <style scoped>
+@import url('../styles/practice.css');
+
 .setting-container {
    max-width: 600px;
    margin: 0 auto;
@@ -255,6 +257,7 @@ const validateInput = (event) => {
 h1 {
    color: #2c3e50;
    margin-bottom: 2em;
+   font-size: 2em;
 }
 
 .settings-content {
@@ -265,26 +268,38 @@ h1 {
 .setting-item {
    margin-bottom: 1.5em;
    display: flex;
+   flex-direction: column;
    gap: 0.5em;
-   align-items: center;
 }
 
 label {
    display: block;
    font-weight: bold;
    color: #34495e;
+   margin-bottom: 0.3em;
 }
 
 select, input:not([type="checkbox"]):not([type="radio"]) {
+   all: unset;
    width: 100%;
    padding: 0.5em;
-   border: 1px solid #ddd;
+   border: 2px solid #ddd;
    border-radius: 4px;
+   font-size: 1rem;
+   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+   box-sizing: border-box;
+}
+
+select:focus, input:not([type="checkbox"]):not([type="radio"]):focus {
+   outline: none;
+   border-color: var(--color-primary);
+   box-shadow: 0 0 5px rgba(66, 185, 131, 0.3);
 }
 
 .checkbox-group {
    display: flex;
    gap: 1em;
+   flex-wrap: wrap;
 }
 
 .checkbox-group label {
@@ -292,12 +307,14 @@ select, input:not([type="checkbox"]):not([type="radio"]) {
    align-items: center;
    gap: 0.5em;
    font-weight: normal;
+   margin-bottom: 0;
 }
 
 .radio-group {
    display: flex;
    align-items: center;
    gap: 1em;
+   flex-wrap: wrap;
 }
 
 .radio-group label {
@@ -305,20 +322,23 @@ select, input:not([type="checkbox"]):not([type="radio"]) {
    align-items: center;
    gap: 0.5em;
    font-weight: normal;
+   margin-bottom: 0;
 }
 
 .start-button {
-   background-color: #42b983;
+   all: unset;
+   background-color: var(--color-green);
    color: white;
-   border: none;
    padding: 1em 2em;
    font-size: 1.1em;
    border-radius: 6px;
    cursor: pointer;
-   transition: background-color 0.3s;
+   font-weight: 600;
+   transition: background-color 0.3s ease, transform 0.15s ease;
 }
 
 .start-button:hover {
    background-color: #369870;
+   transform: translateY(-2px);
 }
 </style>
