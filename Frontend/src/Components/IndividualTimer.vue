@@ -119,6 +119,7 @@ const checkAnswer = () => {
 defineExpose({
    startTimer,
    endQuiz,
+   timeRemaining,
    reset: () => {
       currentNumber.value = ''
       isShowingNumber.value = false

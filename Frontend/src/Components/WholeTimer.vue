@@ -65,6 +65,7 @@ const checkAnswer = () => {
 defineExpose({
    startTimer,
    endQuiz,
+   timeRemaining,
    focusInput: () => {
       setTimeout(() => {
          if (answerInput.value) {

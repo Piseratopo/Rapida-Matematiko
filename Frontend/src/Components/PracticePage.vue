@@ -68,11 +68,27 @@ const endQuiz = (timeUp = false) => {
 // Save the current question to MongoDB
 const saveQuestion = async () => {
    try {
+      // Get timing information from the appropriate timer component
+      let timeAllowed = 0
+      let timeTaken = 0
+      
+      if (settings.timer.type === 'whole' && wholeTimerRef.value) {
+         timeAllowed = parseFloat(settings.timer.value)
+         timeTaken = timeAllowed - wholeTimerRef.value.timeRemaining
+      } else if (settings.timer.type === 'individual' && individualTimerRef.value) {
+         // For individual timer, calculate total time allowed
+         timeAllowed = (parseFloat(settings.timer.value) * settings.length) + 10
+         timeTaken = timeAllowed - individualTimerRef.value.timeRemaining
+      }
+
       const questionData = {
          expression: currentExpression,
          answer: correctAnswer.value,
          isCorrect: isAnswerCorrect.value,
-         timeUp: isTimeUp.value
+         timeUp: isTimeUp.value,
+         timeAllowed: Math.round(timeAllowed),
+         timeTaken: Math.max(0, Math.round(timeTaken)),
+         solvedAt: new Date().toISOString()
       }
 
       const apiURL = import.meta.env.VITE_API_URL

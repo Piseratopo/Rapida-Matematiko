@@ -20,7 +20,7 @@ const fetchQuestions = async () => {
       }
       
       const data = await response.json()
-      questions.value = data.questions || []
+      questions.value = data || []
    } catch (err) {
       error.value = err.message
       console.error('Error fetching questions:', err)
@@ -44,7 +44,22 @@ const formatExpression = (expression) => {
 
 // Format date for display
 const formatDate = (timestamp) => {
-   const date = new Date(timestamp)
+   if (!timestamp) return 'Unknown date'
+   
+   let date
+   if (typeof timestamp === 'string') {
+      date = new Date(timestamp)
+   } else if (timestamp instanceof Date) {
+      date = timestamp
+   } else {
+      date = new Date()
+   }
+   
+   // Check if date is valid
+   if (isNaN(date.getTime())) {
+      return 'Invalid date'
+   }
+   
    return date.toLocaleString()
 }
 
@@ -179,10 +194,14 @@ onMounted(() => {
                {{ formatExpression(question.expression) }}
             </div>
             <div class="question-meta">
-               <span class="date">{{ formatDate(question.timestamp) }}</span>
+               <span class="date">{{ formatDate(question.solvedAt || question.createdAt) }}</span>
                <span :class="['status', getStatusDisplay(question).class]">
                {{ getStatusDisplay(question).text }}
                </span>
+            </div>
+            <div class="timing-info" v-if="question.timeAllowed || question.timeTaken">
+               <span v-if="question.timeAllowed" class="time-allowed">⏱ {{ question.timeAllowed }}s allowed</span>
+               <span v-if="question.timeTaken" class="time-taken">⏰ {{ question.timeTaken }}s taken</span>
             </div>
          </div>
          <div class="question-actions">
@@ -288,6 +307,28 @@ onMounted(() => {
    gap: 1em;
    align-items: center;
    font-size: 0.9em;
+}
+
+.timing-info {
+   display: flex;
+   gap: 1em;
+   align-items: center;
+   font-size: 0.85em;
+   margin-top: 0.5em;
+}
+
+.time-allowed {
+   color: #666;
+   background-color: #f0f0f0;
+   padding: 0.2em 0.5em;
+   border-radius: 4px;
+}
+
+.time-taken {
+   color: var(--color-green);
+   background-color: #e6f9f1;
+   padding: 0.2em 0.5em;
+   border-radius: 4px;
 }
 
 .date {

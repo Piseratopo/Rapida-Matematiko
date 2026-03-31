@@ -1,125 +1,117 @@
-import dns from 'node:dns/promises';
-dns.setServers(['1.1.1.1', '8.8.8.8']);
+// Source - https://stackoverflow.com/q/79875229
+// Posted by Sudarsan Sarkar, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-03-31, License - CC BY-SA 4.0
 
-import express from 'express';
-import cors from 'cors';
-import config from './config/config.js';
-import database from './config/database.js';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
-import { requestLogger } from './middleware/logger.js';
+import express from "express";   
+import mongoose from "mongoose";   
+import cors from "cors";   
+import dotenv from "dotenv";   
+dotenv.config({ path: "./.env" });   
+   
+/* works when I add this */
+import dns from "node:dns/promises";   
+dns.setServers(["1.1.1.1", "1.0.0.1"]);   
 
-// Import routes
-import {
-   saveQuestion,
-   getQuestions,
-   getQuestionById,
-   deleteQuestion,
-   getQuestionStats
-} from './routes/questions.js';
-import { healthCheck } from './routes/health.js';
+const app = express();   
+const MONGO = process.env.MONGODB_URL;   
+const PORT = process.env.PORT || 3001;
 
-// Create Express app
-const app = express();
+// Question Schema
+const questionSchema = new mongoose.Schema({
+   expression: {
+      operands: [String],
+      operators: [String]
+   },
+   answer: String,
+   isCorrect: Boolean,
+   timeUp: Boolean,
+   timeAllowed: Number, // Time allowed for this question in seconds
+   timeTaken: Number, // Time taken by user in seconds
+   solvedAt: Date // When the question was solved
+}, {
+   timestamps: true
+});
 
-// Middleware
-app.use(cors(config.cors));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
-app.use(requestLogger);
+const Question = mongoose.model('Question', questionSchema);
+
+// Database connection
+mongoose   
+   .connect(MONGO)  
+   .then(() => {  
+   console.log("Database Successfully connected");  
+})  
+.catch((error) => {  
+   console.error(`MongoDb Connection failed : ${error}`);    
+});  
+
+app.use(express.json());   
+app.use(cors());
 
 // API Routes
-const apiPrefix = config.api.prefix;
-
-// Health check endpoint
-app.get(`${apiPrefix}/health`, healthCheck);
-
-// Question routes
-app.post(`${apiPrefix}/questions`, saveQuestion);
-app.get(`${apiPrefix}/questions`, getQuestions);
-app.get(`${apiPrefix}/questions/:id`, getQuestionById);
-app.delete(`${apiPrefix}/questions/:id`, deleteQuestion);
-app.get(`${apiPrefix}/questions/stats`, getQuestionStats);
-
-// API info endpoint
-app.get(`${apiPrefix}`, (req, res) => {
-   res.json({
-      name: 'Rapida Matematiko API',
-      version: config.api.version,
-      endpoints: {
-         health: 'GET /api/health',
-         questions: {
-            getAll: 'GET /api/questions',
-            getById: 'GET /api/questions/:id',
-            create: 'POST /api/questions',
-            delete: 'DELETE /api/questions/:id',
-            stats: 'GET /api/questions/stats'
-         }
-      }
-   });
-});
-
-// Root endpoint
-app.get('/', (req, res) => {
-   res.json({
-      message: 'Rapida Matematiko Backend Server',
-      status: 'Running',
-      docs: `${apiPrefix}`
-   });
-});
-
-// Error handling middleware (must be last)
-app.use(notFoundHandler);
-app.use(errorHandler);
-
-
-// Graceful shutdown
-const gracefulShutdown = async (signal) => {
-   console.log(`\nReceived ${signal}. Starting graceful shutdown...`);
-
+// Save a question
+app.post('/api/questions', async (req, res) => {
    try {
-      // Close database connection
-      await database.disconnect();
-
-      console.log('Graceful shutdown completed');
-      process.exit(0);
-   } catch (error) {
-      console.error('Error during graceful shutdown:', error);
-      process.exit(1);
-   }
-};
-
-// Handle process signals
-process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-process.on('SIGINT', () => gracefulShutdown('SIGINT'));
-
-// Start server
-const startServer = async () => {
-   try {
-      // Connect to database
-      await database.connect(config.mongodb.url);
-
-      // Start HTTP server
-      app.listen(config.port, () => {
-         console.log(`🚀 Server running on port ${config.port}`);
-         console.log(`📚 API documentation: http://localhost:${config.port}${apiPrefix}`);
-         console.log(`🏥 Health check: http://localhost:${config.port}${apiPrefix}/health`);
+      const { expression, answer, isCorrect, timeUp } = req.body;
+      
+      const question = new Question({
+         expression,
+         answer,
+         isCorrect,
+         timeUp
       });
+      
+      const savedQuestion = await question.save();
+      res.status(201).json(savedQuestion);
    } catch (error) {
-      console.error('Failed to start server:', error);
-      process.exit(1);
+      res.status(500).json({ error: error.message });
    }
-};
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
-   console.error('Uncaught Exception:', error);
-   gracefulShutdown('uncaughtException');
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-   gracefulShutdown('unhandledRejection');
+// Get all questions
+app.get('/api/questions', async (req, res) => {
+  try {
+    const questions = await Question.find().sort({ createdAt: -1 });
+    res.json(questions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Start the server
-startServer();
+// Get question by ID
+app.get('/api/questions/:id', async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
+    res.json(question);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete question
+app.delete('/api/questions/:id', async (req, res) => {
+  try {
+    const question = await Question.findByIdAndDelete(req.params.id);
+    if (!question) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
+    res.json({ message: 'Question deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+app.listen(PORT, () => {   
+   console.log(`Server started on port Number : ${PORT}`);   
+});
