@@ -9,15 +9,20 @@ dns.setServers(["1.1.1.1", "1.0.0.1"]);
 
 const app = express();   
 
-// CORS configuration
-// const corsOptions = {
-//   origin: '*',
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// };
+// CORS middleware - add headers to every response
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  next();
+});
 
-// app.use(cors());
 app.use(express.json());   
 
 const MONGO = process.env.MONGODB_URL;   
