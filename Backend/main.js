@@ -1,14 +1,9 @@
-// Source - https://stackoverflow.com/q/79875229
-// Posted by Sudarsan Sarkar, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-03-31, License - CC BY-SA 4.0
-
 import express from "express";   
 import mongoose from "mongoose";   
 import cors from "cors";   
 import dotenv from "dotenv";   
 dotenv.config({ path: "./.env" });   
    
-/* works when I add this */
 import dns from "node:dns/promises";   
 dns.setServers(["1.1.1.1", "1.0.0.1"]);   
 
@@ -34,6 +29,9 @@ const questionSchema = new mongoose.Schema({
 
 const Question = mongoose.model('Question', questionSchema);
 
+app.use(express.json());   
+app.use(cors());
+
 // Database connection
 mongoose   
    .connect(MONGO)  
@@ -43,9 +41,6 @@ mongoose
 .catch((error) => {  
    console.error(`MongoDb Connection failed : ${error}`);    
 });  
-
-app.use(express.json());   
-app.use(cors());
 
 // API Routes
 // Save a question
