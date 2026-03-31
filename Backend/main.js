@@ -1,23 +1,23 @@
 import express from "express";   
 import mongoose from "mongoose";   
-import cors from "cors";   
+// import cors from "cors";   
 import dotenv from "dotenv";   
 // dotenv.config({ path: "./.env" });   
    
-// import dns from "node:dns/promises";   
-// dns.setServers(["1.1.1.1", "1.0.0.1"]);   
+import dns from "node:dns/promises";   
+dns.setServers(["1.1.1.1", "1.0.0.1"]);   
 
 const app = express();   
 
 // CORS configuration
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
+// const corsOptions = {
+//   origin: '*',
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// };
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());   
 
 const MONGO = process.env.MONGODB_URL;   
