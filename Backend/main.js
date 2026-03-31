@@ -2,18 +2,16 @@ import express from "express";
 import mongoose from "mongoose";   
 import cors from "cors";   
 import dotenv from "dotenv";   
-dotenv.config({ path: "./.env" });   
+// dotenv.config({ path: "./.env" });   
    
-import dns from "node:dns/promises";   
-dns.setServers(["1.1.1.1", "1.0.0.1"]);   
+// import dns from "node:dns/promises";   
+// dns.setServers(["1.1.1.1", "1.0.0.1"]);   
 
 const app = express();   
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://rapida-matematiko.vercel.app', 'https://rapida-matematiko.vercel.app/saved']
-    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080'],
+  origin: '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
