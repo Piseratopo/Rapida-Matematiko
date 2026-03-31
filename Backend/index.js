@@ -1,8 +1,7 @@
 import express from "express";   
 import mongoose from "mongoose";   
-// import cors from "cors";   
+import cors from "cors";   
 import dotenv from "dotenv";   
-// dotenv.config({ path: "./.env" });   
    
 import dns from "node:dns/promises";   
 dns.setServers(["1.1.1.1", "1.0.0.1"]);   
@@ -10,18 +9,7 @@ dns.setServers(["1.1.1.1", "1.0.0.1"]);
 const app = express();   
 
 // CORS middleware - add headers to every response
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  next();
-});
+app.use(cors());
 
 app.use(express.json());   
 

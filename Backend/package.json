@@ -5,10 +5,10 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node main.js",
-    "dev": "nodemon main.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "node test-api.js"
   },
   "dependencies": {
