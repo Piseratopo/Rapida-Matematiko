@@ -8,7 +8,18 @@ import dns from "node:dns/promises";
 dns.setServers(["1.1.1.1", "1.0.0.1"]);   
 
 const app = express();   
-app.use(cors());
+
+// CORS configuration
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://rapida-matematiko.vercel.app', 'https://rapida-matematiko.vercel.app/saved']
+    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());   
 
 const MONGO = process.env.MONGODB_URL;   
