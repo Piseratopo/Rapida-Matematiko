@@ -45,10 +45,7 @@ mongoose
 });  
 
 app.use(express.json());   
-app.use(cors({
-   origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-   credentials: true
-}));
+app.use(cors());
 
 // API Routes
 // Save a question
