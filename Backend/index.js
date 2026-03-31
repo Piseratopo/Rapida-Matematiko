@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";   
 import cors from "cors";   
 import dotenv from "dotenv";   
+dotenv.config(); 
    
 import dns from "node:dns/promises";   
 dns.setServers(["1.1.1.1", "1.0.0.1"]);   
