@@ -14,11 +14,11 @@ const fetchQuestions = async () => {
       loading.value = true
       const apiURL = import.meta.env.VITE_API_URL
       const response = await fetch(`${apiURL}/api/questions`)
-      
+
       if (!response.ok) {
          throw new Error('Failed to fetch questions')
       }
-      
+
       const data = await response.json()
       questions.value = data || []
    } catch (err) {
@@ -34,7 +34,7 @@ const formatExpression = (expression) => {
    if (!expression || !expression.operands || !expression.operators) {
       return 'Invalid expression'
    }
-   
+
    let expr = expression.operands[0]
    for (let i = 0; i < expression.operators.length; i++) {
       expr += ` ${expression.operators[i]} ${expression.operands[i + 1]}`
@@ -45,7 +45,7 @@ const formatExpression = (expression) => {
 // Format date for display
 const formatDate = (timestamp) => {
    if (!timestamp) return 'Unknown date'
-   
+
    let date
    if (typeof timestamp === 'string') {
       date = new Date(timestamp)
@@ -54,12 +54,12 @@ const formatDate = (timestamp) => {
    } else {
       date = new Date()
    }
-   
+
    // Check if date is valid
    if (isNaN(date.getTime())) {
       return 'Invalid date'
    }
-   
+
    return date.toLocaleString()
 }
 
@@ -96,16 +96,16 @@ const deleteQuestion = async (id) => {
    if (!confirm('Are you sure you want to delete this question?')) {
       return
    }
-   
+
    try {
-      const response = await fetch(`http://localhost:3001/api/questions/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${id}`, {
          method: 'DELETE'
       })
-      
+
       if (!response.ok) {
          throw new Error('Failed to delete question')
       }
-      
+
       // Remove from local array
       questions.value = questions.value.filter(q => q._id !== id)
    } catch (err) {
@@ -452,24 +452,24 @@ onMounted(() => {
    .saved-questions-container {
       padding: 1em;
    }
-   
+
    .header {
       flex-direction: column;
       gap: 1em;
       align-items: flex-start;
    }
-   
+
    .question-card {
       flex-direction: column;
       align-items: flex-start;
       gap: 1em;
    }
-   
+
    .question-actions {
       margin-left: 0;
       align-self: flex-end;
    }
-   
+
    .question-meta {
       flex-direction: column;
       align-items: flex-start;
